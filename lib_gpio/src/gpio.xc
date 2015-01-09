@@ -79,7 +79,8 @@ void input_gpio_with_events(server input_gpio_if i[n],
       if (bit == value)
         i[j].event();
       else {
-        waiting++;
+        if (test_vals[j] != -1)
+          waiting++;
         test_vals[j] = value;
       }
       break;
