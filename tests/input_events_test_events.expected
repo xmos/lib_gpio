@@ -1,0 +1,25 @@
+Checker driving port
+Checker expecting 0x\w as trigger data
+xCORE client \d setup pins eq event
+xCORE client \d setup pins eq event
+xCORE client \d setup pins eq event
+xCORE client \d setup pins eq event
+xCORE client \d got input port event
+xCORE client \d got input port event
+xCORE client \d got input port event
+xCORE client \d got input port event
+xCORE client \d setup pins eq event
+xCORE client \d setup pins eq event
+xCORE client \d setup pins eq event
+xCORE client \d setup pins eq event
+xCORE client \d driving trigger port
+xCORE client \d driving trigger port
+xCORE client \d driving trigger port
+xCORE client \d driving trigger port
+Checker received correct trigger
+Checker driving port
+Checker complete
+xCORE client \d got input port event
+xCORE client \d got input port event
+xCORE client \d got input port event
+xCORE client \d got input port event

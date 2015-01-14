@@ -10,3 +10,5 @@
 **/_build/
 **/run_*.log
 **/pdf/*
+*.pyc
+test_results.csv

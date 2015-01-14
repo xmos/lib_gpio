@@ -1,0 +1,10 @@
+Checker driving port
+Checker expecting 0x1 as trigger data
+xCORE setup pins eq event
+xCORE got input port event
+xCORE setup pins eq event
+xCORE driving trigger port
+Checker received correct trigger
+Checker driving port
+Checker complete
+xCORE got input port event
