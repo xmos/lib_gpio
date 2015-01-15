@@ -73,7 +73,7 @@ typedef interface output_gpio_if
 } output_gpio_if;
 
 
-/* Task that splits a multibit port into several 1 bit GPIO interfaces.
+/** Task that splits a multibit port into several 1 bit GPIO interfaces.
  *
  * This component allows other tasks to access the individual bits of
  * a multi-bit output port.
@@ -89,10 +89,10 @@ typedef interface output_gpio_if
  *                    argument then the pin map is assumed to be {0,1,2...}.
  */
 [[distributable]]
-void output_gpio(server output_gpio_if i[n], static const size_t n, port p,
+void output_gpio(server output_gpio_if i[n], static const size_t n, out port p,
                  char (&?pin_map)[n]);
 
-/* Task that splits a multibit input port into several 1 bit GPIO interfaces
+/** Task that splits a multibit input port into several 1 bit GPIO interfaces
  * (no events).
  *
  * This component allows other tasks to access the individual bits of
@@ -111,7 +111,7 @@ void output_gpio(server output_gpio_if i[n], static const size_t n, port p,
  *                    argument then the pin map is assumed to be {0,1,2...}.
  */
 [[distributable]]
-void input_gpio(server input_gpio_if i[n], static const size_t n, port p,
+void input_gpio(server input_gpio_if i[n], static const size_t n, in port p,
                 char (&?pin_map)[n]);
 
 /* Task that splits a multibit input port into several 1 bit GPIO interfaces
@@ -134,10 +134,10 @@ void input_gpio(server input_gpio_if i[n], static const size_t n, port p,
 [[combinable]]
 void input_gpio_with_events(server input_gpio_if i[n],
                             static const size_t n,
-                            port p,
+                            in port p,
                             char (&?pin_map)[n]);
 
-/* Conver a 1-bit port to a single 1-bit GPIO interface.
+/** Convert a 1-bit port to a single 1-bit GPIO interface.
  *
  * This component allows other tasks to access a 1 bit port as a GPIO
  * interface. It is more efficient that using input_gpio_with_events() for the
@@ -147,7 +147,7 @@ void input_gpio_with_events(server input_gpio_if i[n],
  * \param   p         The input port.
  */
 [[combinable]]
-void input_gpio_1bit_with_events(server input_gpio_if i, port p);
+void input_gpio_1bit_with_events(server input_gpio_if i, in port p);
 
 #endif
 #endif // __gpio_h__

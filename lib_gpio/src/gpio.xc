@@ -5,7 +5,7 @@
 
 [[distributable]]
 void input_gpio(server input_gpio_if i[n], static const size_t n,
-                port p, char (&?pin_map)[n])
+                in port p, char (&?pin_map)[n])
 {
   char *pmap;
   char default_pmap[n];
@@ -41,7 +41,7 @@ void input_gpio(server input_gpio_if i[n], static const size_t n,
 [[combinable]]
 void input_gpio_with_events(server input_gpio_if i[n],
                             static const size_t n,
-                            port p,
+                            in port p,
                             char (&?pin_map)[n])
 {
   char *pmap;
@@ -102,7 +102,7 @@ void input_gpio_with_events(server input_gpio_if i[n],
 
 
 [[combinable]]
-void input_gpio_1bit_with_events(server input_gpio_if i, port p)
+void input_gpio_1bit_with_events(server input_gpio_if i, in port p)
 {
   unsigned test_val = -1;
   while (1) {
@@ -127,7 +127,7 @@ void input_gpio_1bit_with_events(server input_gpio_if i, port p)
 
 
 [[distributable]]
-void output_gpio(server output_gpio_if i[n], static const size_t n, port p,
+void output_gpio(server output_gpio_if i[n], static const size_t n, out port p,
                  char (&?pin_map)[n])
 {
   char *pmap;
