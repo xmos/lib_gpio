@@ -51,11 +51,9 @@ void read_port(client input_gpio_if input_port, unsigned int client_num) {
         debug_printf("xCORE client %d input data correctly\n", client_num);
     }
 
-    if (EVENTS) {
-        // Allow other cores to complete
-        delay_microseconds(5);
-        _exit(0);
-    }
+    // Allow other cores to complete
+    delay_microseconds(5);
+    _exit(0);
 }
 
 int main(void) {

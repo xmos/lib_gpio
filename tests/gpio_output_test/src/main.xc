@@ -1,5 +1,6 @@
 #include <gpio.h>
 #include <xs1.h>
+#include <syscall.h>
 #include "debug_print.h"
 
 #define NUM_CLIENTS (4)
@@ -14,7 +15,8 @@ void wait_for_termination_signal() {
     debug_printf("xCORE waiting for termination signal\n");
     select {
         case trigger_port when pinsneq(0) :> int _:
-            return;
+          _exit(0);
+          break;
     }
 }
 
