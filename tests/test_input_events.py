@@ -5,8 +5,6 @@ from gpio_events_checker import GPIOEventsChecker
 def do_input_events_test(events):
     resources = xmostest.request_resource("xsim")
 
-    xmostest.build('gpio_input_events_test')
-
     path = ''
     if not events:
         path += '_basic'

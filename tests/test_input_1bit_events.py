@@ -5,8 +5,6 @@ from gpio_events_checker import GPIOEventsChecker
 def do_input_1bit_events_test():
     resources = xmostest.request_resource("xsim")
 
-    xmostest.build('gpio_input_1bit_test')
-
     binary = 'gpio_input_1bit_test/bin/input_events/gpio_input_1bit_test_input_events.xe'
 
     checker = GPIOEventsChecker(test_port="tile[0]:XS1_PORT_1A",

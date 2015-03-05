@@ -5,8 +5,6 @@ from gpio_basic_checker import GPIOBasicChecker
 def do_output_test(timestamps, supply_pin_map):
     resources = xmostest.request_resource("xsim")
 
-    xmostest.build('gpio_output_test')
-
     path = ''
     if not timestamps and not supply_pin_map:
         path += '_basic'
