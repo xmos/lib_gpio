@@ -1,3 +1,4 @@
+// Copyright (c) 2015, XMOS Ltd, All rights reserved
 #include <gpio.h>
 #include <xs1.h>
 #include <syscall.h>
