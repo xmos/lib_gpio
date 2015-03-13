@@ -23,7 +23,11 @@ def do_output_test(timestamps, supply_pin_map):
                                num_clients=4,
                                trigger_port="tile[0]:XS1_PORT_4B")
 
-    tester = xmostest.ComparisonTester(open('output_test.expected'),
+    if supply_pin_map:
+        expected_result = 'output_supply_pin_map_test.expected'
+    else:
+        expected_result = 'output_test.expected'
+    tester = xmostest.ComparisonTester(open(expected_result),
                                        'lib_gpio', 'gpio_sim_tests',
                                        'output_test',
                                        {'timestamps':timestamps,
