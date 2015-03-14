@@ -27,3 +27,15 @@ Operating modes
  * Multibit input for individual access to the pins of a multibit input port
  * Multibit input for individual access to the pins of a multibit
    input port allowing the application to react to events on those pins
+
+Software version and dependencies
+.................................
+
+.. libdeps::
+
+Related application notes
+.........................
+
+The following application notes use this library:
+
+  * AN00166 - How to access individual pins of a multi-bit port

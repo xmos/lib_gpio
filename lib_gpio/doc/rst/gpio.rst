@@ -1,27 +1,49 @@
 .. include:: ../../../README.rst
 
-Software version and dependencies
-.................................
+Connecting external signals to multibit ports
+---------------------------------------------
 
-.. libdeps::
+Multi-bit ports can be connected to independent signals in either an
+all output configuration (see :ref:`lib_gpio_n_bit_output`) or an all
+input configuration (see :ref:`lib_gpio_n_bit_input`). This implies
+two important restrictions:
 
-Related application notes
-.........................
+  * **Bi-directional signals cannot use this library**
+  * **The signals on the same port must go in the same direction**
 
-The following application notes use this library:
+To use bi-directional signals, a dedicated 1-bit hardware port needs
+to be used.
 
-  * AN????? - How to access individual pins of a multibit port
-  * AN????? - A simple flashing LEDs example using the GPIO library
+.. _lib_gpio_n_bit_input:
 
-Hardware characteristics
-------------------------
+.. figure:: images/n_bit_input.*
 
-TODO
+   Input configuration
 
-Restrictions on directions of multibit ports
-............................................
+.. _lib_gpio_n_bit_output:
 
-TODO
+.. figure:: images/n_bit_output.*
+
+   Output configuration
+
+Performance restrictions
+........................
+
+This library allows independent access to the pins of mulit-bit ports
+by multiplexing the port output or input in software. This means that
+there are some performance implications to using the ports.
+
+  * The internal buffering, serializing and de-serializing features of
+    the port are not available.
+  * The software locking and multiplexing between individual bits of
+    the port limits performance in line with the performance of the speed
+    of the logical core that is driving the port. As such, toggling
+    pins at speed above 1Mhz, for example, is not achievable (on a
+    62.5Mhz logical core). Lower speeds will depend on the other
+    calculation on the core and the use of other pins of the port.
+
+As such, sharing multi-bit ports is most suitable for slow I/O such as
+LEDs, buttons, reset lines *etc.*
 
 Usage
 -----
@@ -232,3 +254,11 @@ Input GPIO interface
 .. doxygeninterface:: input_gpio_if
 
 
+|appendix|
+
+Known Issues
+------------
+
+No known issues.
+
+.. include:: ../../../CHANGELOG.rst
