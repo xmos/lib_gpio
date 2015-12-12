@@ -5,3 +5,8 @@ GPIO library change log
 -----
 
   * Initial version
+
+  * Changes to dependencies:
+
+    - lib_xassert: Added dependency 2.0.0
+
