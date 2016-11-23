@@ -23,7 +23,8 @@ typedef interface input_gpio_if
    *
    *  \param   timestamp  This pass-by-reference parameter will be set
    *                      to the time the value was input. This timestamp
-   *                      is on a timebase relative to the GPIO.
+   *                      is the 16-bit port timer value. The port timer is
+   *                      driven at the rate of the port clock.
    *
    *  \returns The value input from the port in the least significant bit.
    *           The rest of the value will be zero extended.
@@ -35,7 +36,7 @@ typedef interface input_gpio_if
   *  This function will cause a notification to occur when the pins
   *  match the specified value.
   *
-  *  \param val   The value to match.
+  *  \param val   The least significant bit represents the 1-bit value to match.
   */
  [[clears_notification]]
  void event_when_pins_eq(unsigned val);
@@ -68,13 +69,14 @@ typedef interface output_gpio_if
    *               represents the 1-bit value to be output.
    *
    *  \returns     The time the value was input. This timestamp
-   *               is on a timebase relative to the GPIO.
+   *               is the 16-bit port timer value. The port timer is driven
+   *               at the rate of the port clock.
    */
  gpio_time_t output_and_timestamp(unsigned data);
 } output_gpio_if;
 
 
-/** Task that splits a multibit port into several 1 bit GPIO interfaces.
+/** Task that splits a multi-bit port into several 1-bit GPIO interfaces.
  *
  * This component allows other tasks to access the individual bits of
  * a multi-bit output port.
@@ -93,7 +95,7 @@ typedef interface output_gpio_if
 void output_gpio(server output_gpio_if i[n], static const size_t n, out port p,
                  char (&?pin_map)[n]);
 
-/** Task that splits a multibit input port into several 1 bit GPIO interfaces
+/** Task that splits a multi-bit input port into several 1-bit GPIO interfaces
  * (no events).
  *
  * This component allows other tasks to access the individual bits of
@@ -115,7 +117,7 @@ void output_gpio(server output_gpio_if i[n], static const size_t n, out port p,
 void input_gpio(server input_gpio_if i[n], static const size_t n, in port p,
                 char (&?pin_map)[n]);
 
-/* Task that splits a multibit input port into several 1 bit GPIO interfaces
+/* Task that splits a multi-bit input port into several 1-bit GPIO interfaces
  * (with events).
  *
  * This component allows other tasks to access the individual bits of
@@ -140,7 +142,7 @@ void input_gpio_with_events(server input_gpio_if i[n],
 
 /** Convert a 1-bit port to a single 1-bit GPIO interface.
  *
- * This component allows other tasks to access a 1 bit port as a GPIO
+ * This component allows other tasks to access a 1-bit port as a GPIO
  * interface. It is more efficient that using input_gpio_with_events() for the
  * restricted case where a 1-bit port is used.
  *
