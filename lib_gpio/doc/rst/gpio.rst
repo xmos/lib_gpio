@@ -1,7 +1,7 @@
 .. include:: ../../../README.rst
 
-Connecting external signals to multibit ports
----------------------------------------------
+Connecting external signals to multi-bit ports
+----------------------------------------------
 
 Multi-bit ports can be connected to independent signals in either an
 all output configuration (see :ref:`lib_gpio_n_bit_output`) or an all
@@ -31,19 +31,19 @@ Performance restrictions
 
 This library allows independent access to the pins of mulit-bit ports
 by multiplexing the port output or input in software. This means that
-there are some performance implications to using the ports.
+there are some performance implications, namely:
 
   * The internal buffering, serializing and de-serializing features of
-    the port are not available.
+    the xCORE port are not available.
   * The software locking and multiplexing between individual bits of
-    the port limits performance in line with the performance of the speed
-    of the logical core that is driving the port. As such, toggling
+    the port limits performance. As such, toggling
     pins at speed above 1Mhz, for example, is not achievable (on a
-    62.5Mhz logical core). Lower speeds will depend on the other
-    calculation on the core and the use of other pins of the port.
+    62.5Mhz logical core). The limit may be lower depending on the other
+    code is running on the core and how the other pins of the port are being
+    driven.
 
 As such, sharing multi-bit ports is most suitable for slow I/O such as
-LEDs, buttons, reset lines *etc.*
+LEDs, buttons and reset lines.
 
 Usage
 -----
@@ -65,7 +65,7 @@ For example, the following code instantiates an output GPIO component
 for the first 3 pins of a port and connects to it::
 
   port p = XS1_PORT_4C;
-   
+
   int main(void) {
     output_gpio_if i_gpio[3];
     par {
@@ -77,8 +77,8 @@ for the first 3 pins of a port and connects to it::
   }
 
 Note that the connection is an array of interfaces, so several tasks
-can connect to the same component instance, each controlling a
-different pin of the port.
+can connect to the same component instance, each controlling
+different pins of the port.
 
 The application can use the client end of the interface connection to
 perform GPIO operations e.g.::
@@ -120,7 +120,7 @@ For example, the following code instantiates an input GPIO component
 for the first 3 pins of a port and connects to it::
 
   port p = XS1_PORT_4C;
-   
+
   int main(void) {
     input_gpio_if i_gpio[3];
     par {
@@ -132,8 +132,8 @@ for the first 3 pins of a port and connects to it::
   }
 
 Note that the connection is an array of interfaces, so several tasks
-can connect to the same component instance, each controlling a
-different pin of the port.
+can connect to the same component instance, each controlling
+different pins of the port.
 
 |newpage|
 
