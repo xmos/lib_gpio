@@ -96,7 +96,7 @@ perform GPIO operations e.g.::
 
 More information on interfaces and tasks can be be found in
 the :ref:`XMOS Programming Guide<programming_guide>`. By default the
-output GPIIO component does not use any logical cores of its
+output GPIO component does not use any logical cores of its
 own. It is a *distributed* task which means it will perform its
 function on the logical core of the application task connected to
 it (provided the application task is on the same tile).
@@ -154,7 +154,7 @@ perform GPIO operations e.g.::
 
 More information on interfaces and tasks can be be found in
 the :ref:`XMOS Programming Guide<programming_guide>`. By default the
-output GPIIO component does not use any logical cores of its
+output GPIO component does not use any logical cores of its
 own. It is a *distributed* task which means it will perform its
 function on the logical core of the application task connected to
 it (provided the application task is on the same tile).
@@ -214,7 +214,7 @@ pins. For example, the following will map the array indices to pins 3,
 Output GPIO API
 ---------------
 
-All gpio functions can be accessed via the ``gpio.h`` header::
+All GPIO functions can be accessed via the ``gpio.h`` header::
 
   #include <gpio.h>
 
