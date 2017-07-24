@@ -1,0 +1,7 @@
+def use_module(bld):
+    bld.env.XCC_FLAGS.append('-O3')
+    bld.module(
+        source='src/gpio.xc',
+        includes=['api'],
+        depends_on='lib_xassert(>=3.0.0)',
+        version='1.1.0')
