@@ -12,3 +12,8 @@
 **/pdf/*
 *.pyc
 test_results.csv
+
+# waf build files
+.lock-waf_*
+.waf-*/
+build/
