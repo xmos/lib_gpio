@@ -1,5 +1,5 @@
 def use_module(bld):
-    bld.env.XCC_FLAGS.append('-O3')
+    bld.env.MODULE_XCC_FLAGS.append('-O3')
     bld.module(
         source='src/gpio.xc',
         includes=['api'],
