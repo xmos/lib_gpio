@@ -1,6 +1,11 @@
 GPIO library change log
 =======================
 
+1.1.1
+-----
+
+  * CHANGE: Placeholder for new version
+
 1.1.0
 -----
 
