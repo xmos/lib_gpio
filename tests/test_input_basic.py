@@ -2,11 +2,11 @@
 import xmostest
 from gpio_basic_checker import GPIOBasicChecker
 
-def do_input_basic_test(events, timestamps, supply_pin_map):
+def do_input_basic_test(events, timestamps, supply_pin_map, crosstile):
     resources = xmostest.request_resource("xsim")
 
     path = ''
-    if not events and not timestamps and not supply_pin_map:
+    if not events and not timestamps and not supply_pin_map and not crosstile:
         path += '_basic'
     else:
         if events:
@@ -15,6 +15,8 @@ def do_input_basic_test(events, timestamps, supply_pin_map):
             path += '_timestamps'
         if supply_pin_map:
             path += '_supply_pin_map'
+        if crosstile:
+            path += '_crosstile'
 
     binary = 'gpio_input_basic_test/bin/input' + path + \
         '/gpio_input_basic_test_input' + path + '.xe'
@@ -29,15 +31,18 @@ def do_input_basic_test(events, timestamps, supply_pin_map):
                                        'input_basic_test',
                                        {'events':events,
                                        'timestamps':timestamps,
-                                       'supply_pin_map':supply_pin_map},
+                                       'supply_pin_map':supply_pin_map,
+                                       'crosstile':crosstile},
                                        regexp=True)
 
     xmostest.run_on_simulator(resources['xsim'], binary, simthreads = [checker],
                               tester = tester)
 
 def runtest():
-    do_input_basic_test(events=False, timestamps=False, supply_pin_map=False)
-    do_input_basic_test(events=False, timestamps=False, supply_pin_map=True)
-    do_input_basic_test(events=False, timestamps=True, supply_pin_map=False)
-    do_input_basic_test(events=True, timestamps=False, supply_pin_map=False)
-    do_input_basic_test(events=True, timestamps=True, supply_pin_map=False)
+    do_input_basic_test(events=False, timestamps=False, supply_pin_map=False, crosstile=False)
+    do_input_basic_test(events=False, timestamps=False, supply_pin_map=True, crosstile=False)
+    do_input_basic_test(events=False, timestamps=True, supply_pin_map=False, crosstile=False)
+    do_input_basic_test(events=True, timestamps=False, supply_pin_map=False, crosstile=False)
+    do_input_basic_test(events=True, timestamps=True, supply_pin_map=False, crosstile=False)
+    do_input_basic_test(events=False, timestamps=False, supply_pin_map=False, crosstile=True)
+    do_input_basic_test(events=True, timestamps=True, supply_pin_map=True, crosstile=True)

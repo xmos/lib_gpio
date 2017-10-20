@@ -3,14 +3,19 @@
 #include <xs1.h>
 #include <timer.h>
 #include <syscall.h>
+#include <platform.h>
 #include "debug_print.h"
+
+#ifndef CROSSTILE
+#define CROSSTILE 0
+#endif
 
 #define NUM_CLIENTS (4)
 #define TIMESTAMP_TEST_DELAY_MICROSECONDS (5)
 #define TIMESTAMP_TEST_DELAY_CLOCKS (TIMESTAMP_TEST_DELAY_MICROSECONDS * XS1_TIMER_MHZ)
-#define TIMESTAMP_TEST_DELAY_SLACK_CLOCKS (100)
+#define TIMESTAMP_TEST_DELAY_SLACK_CLOCKS (100 + CROSSTILE?100:0)
 
-port input_port = XS1_PORT_4D;
+on tile[0] : port input_port = XS1_PORT_4D;
 
 void read_port(client input_gpio_if input_port, unsigned int client_num) {
     unsigned int pin_data;
@@ -57,21 +62,22 @@ void read_port(client input_gpio_if input_port, unsigned int client_num) {
     _exit(0);
 }
 
-int main(void) {
-    interface input_gpio_if i_input_port[NUM_CLIENTS];
 #if SUPPLY_PIN_MAP
-    char pin_map[NUM_CLIENTS] = {1, 0, 3, 2};
+static char pin_map[NUM_CLIENTS] = {1, 0, 3, 2};
 #else
 #define pin_map null
 #endif
+
+int main(void) {
+    interface input_gpio_if i_input_port[NUM_CLIENTS];
     par {
 #if EVENTS
-        input_gpio_with_events(i_input_port, NUM_CLIENTS, input_port, pin_map);
+        on tile[0] : input_gpio_with_events(i_input_port, NUM_CLIENTS, input_port, pin_map);
 #else
-        input_gpio(i_input_port, NUM_CLIENTS, input_port, pin_map);
+        on tile[0] : input_gpio(i_input_port, NUM_CLIENTS, input_port, pin_map);
 #endif
         par (int i = 0; i < NUM_CLIENTS; i++) {
-            read_port(i_input_port[i], i);
+            on tile[CROSSTILE?i%2:0] : read_port(i_input_port[i], i);
         }
     }
     return 0;
