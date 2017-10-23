@@ -31,23 +31,31 @@ def build(bld):
 CONFIGS = {
     'input_events_timestamps': [
         '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
-        '-DEVENTS=1', '-DTIMESTAMPS=1', '-DSUPPLY_PIN_MAP=0'
+        '-DEVENTS=1', '-DTIMESTAMPS=1', '-DSUPPLY_PIN_MAP=0',  '-DCROSSTILE=0'
     ],
     'input_timestamps': [
         '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
-        '-DEVENTS=0', '-DTIMESTAMPS=1', '-DSUPPLY_PIN_MAP=0'
+        '-DEVENTS=0', '-DTIMESTAMPS=1', '-DSUPPLY_PIN_MAP=0',  '-DCROSSTILE=0'
     ],
     'input_events': [
         '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
-        '-DEVENTS=1', '-DTIMESTAMPS=0', '-DSUPPLY_PIN_MAP=0'
+        '-DEVENTS=1', '-DTIMESTAMPS=0', '-DSUPPLY_PIN_MAP=0',  '-DCROSSTILE=0'
     ],
     'input_basic': [
         '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
-        '-DEVENTS=0', '-DTIMESTAMPS=0', '-DSUPPLY_PIN_MAP=0'
+        '-DEVENTS=0', '-DTIMESTAMPS=0', '-DSUPPLY_PIN_MAP=0',  '-DCROSSTILE=0'
     ],
     'input_supply_pin_map': [
         '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
-        '-DEVENTS=0', '-DTIMESTAMPS=0', '-DSUPPLY_PIN_MAP=1'
+        '-DEVENTS=0', '-DTIMESTAMPS=0', '-DSUPPLY_PIN_MAP=1',  '-DCROSSTILE=0'
+    ],
+    'input_crosstile': [
+        '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
+        '-DEVENTS=0', '-DTIMESTAMPS=0', '-DSUPPLY_PIN_MAP=0',  '-DCROSSTILE=1'
+    ],
+    'input_events_timestamps_supply_pin_map_crosstile': [
+        '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
+        '-DEVENTS=1', '-DTIMESTAMPS=1', '-DSUPPLY_PIN_MAP=1',  '-DCROSSTILE=1'
     ],
 }
 
