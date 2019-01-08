@@ -1,3 +1,4 @@
+# Copyright (c) 2015-2019, XMOS Ltd, All rights reserved
 import xmostest
 
 class GPIOBasicChecker(xmostest.SimThread):
