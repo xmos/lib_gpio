@@ -1,44 +1,14 @@
-import xwaf.utils.configs as config_utils
-
-
-def options(ctx):
-    ctx.add_option('--config', action='store', default='')
-
+def options(opt):
+    opt.load('xwaf.xcommon')
 
 def configure(conf):
-    def make_config(name, flags):
-        conf.setenv(name)
-        conf.load('xwaf.compiler_xcc')
-        conf.env.XCC_FLAGS = flags
-
-    for key, value in CONFIGS.iteritems():
-        make_config(key, value)
-
+    conf.load('xwaf.xcommon')
 
 def build(bld):
-    if not config_utils.check_build_config(bld, CONFIGS):
-        return
+    bld.do_xcommon()
 
-    bld.env.PROJECT_ROOT = '../../..'
+def dist(ctx):
+    ctx.load('xwaf.xcommon')
 
-    depends_on = ['lib_gpio', 'lib_logging']
-
-    bld.env.TARGET_ARCH = 'SLICEKIT-L16'
-
-    prog = bld.program(depends_on=depends_on)
-
-
-CONFIGS = {
-    'input_events': [
-        '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
-        '-DXASSERT_ENABLE_ASSERTIONS=1', '-DXASSERT_ENABLE_DEBUG=1',
-        '-DEVENTS=1'
-    ],
-    'input_basic': [
-        '-O2', '-g', '-save-temps', '-DDEBUG_PRINT_ENABLE=1', '-report',
-        '-DXASSERT_ENABLE_ASSERTIONS=1', '-DXASSERT_ENABLE_DEBUG=1',
-        '-DEVENTS=0'
-    ],
-}
-
-config_utils.register_configs(CONFIGS)
+def distcheck(ctx):
+    ctx.load('xwaf.xcommon')
