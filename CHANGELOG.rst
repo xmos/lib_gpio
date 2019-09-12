@@ -1,10 +1,10 @@
 GPIO library change log
 =======================
 
-1.1.1
+2.0.0
 -----
 
-  * CHANGE: Placeholder for new version
+  * CHANGED: Build files updated to support new "xcommon" behaviour in xwaf.
 
 1.1.0
 -----
