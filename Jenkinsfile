@@ -45,6 +45,7 @@ pipeline {
         xcorePrepareSandbox("${VIEW}", "${REPO}")
       }
     }
+    
     stage('Library checks') {
       steps {
         xcoreLibraryChecks("${REPO}")
@@ -71,7 +72,7 @@ pipeline {
       updateViewfiles()
     }
     cleanup {
-      cleanWs()
+      xcoreCleanSandbox()
     }
   }
 }
