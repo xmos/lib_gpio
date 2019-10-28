@@ -45,15 +45,7 @@ pipeline {
         xcorePrepareSandbox("${VIEW}", "${REPO}")
       }
     }
-    stage('Patch tools') {
-      steps {
-        dir('tools_released/xwaf_patch') {
-          viewEnv() {
-            sh './xpatch'
-          }
-        }
-      }
-    }
+    
     stage('Library checks') {
       steps {
         xcoreLibraryChecks("${REPO}")
