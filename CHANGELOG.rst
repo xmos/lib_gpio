@@ -5,6 +5,7 @@ GPIO library change log
 -----
 
   * CHANGED: Pin Python package versions
+  * REMOVED: not necessary cpanfile
 
 2.0.0
 -----
