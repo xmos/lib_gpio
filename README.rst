@@ -31,7 +31,7 @@ Software version and dependencies
 .................................
 
 The CHANGELOG contains information about the current and previous versions.
-For a list of direct dependencies, look for DEPENDENT_MODULES in audio_test_tools/module_build_info.
+For a list of direct dependencies, look for DEPENDENT_MODULES in lib_gpio/module_build_info.
 
 Related application notes
 .........................
