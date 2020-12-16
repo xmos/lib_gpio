@@ -5,7 +5,7 @@ GPIO library change log
 -----
 
   * ADDED: xcore AI tests
-  
+
 2.0.1
 -----
 
