@@ -1,52 +1,115 @@
-@Library('xmos_jenkins_shared_library@v0.14.2') _
+@Library('xmos_jenkins_shared_library@v0.15.1') _
 
 getApproval()
 
 pipeline {
-  agent {
-    label 'x86_64&&brew'
-  }
-  environment {
-    REPO = 'lib_gpio'
-    VIEW = "${env.JOB_NAME.contains('PR-') ? REPO+'_'+env.CHANGE_TARGET : REPO+'_'+env.BRANCH_NAME}"
-  }
-  options {
-    skipDefaultCheckout()
+  agent none
+  //Tools for AI verif stage. Tools for standard stage in view file
+  parameters {
+    string(
+      name: 'TOOLS_VERSION',
+      defaultValue: '15.0.2',
+      description: 'The tools version to build with (check /projects/tools/ReleasesTools/)'
+      )
   }
   stages {
-    stage('Get view') {
-      steps {
-        xcorePrepareSandbox("${VIEW}", "${REPO}")
+    stage('Standard build and XS2 tests') {
+      agent {
+        label 'x86_64&&brew'
       }
-    }
-    
-    stage('Library checks') {
-      steps {
-        xcoreLibraryChecks("${REPO}")
+      environment {
+        REPO = 'lib_gpio'
+        VIEW = "${env.JOB_NAME.contains('PR-') ? REPO+'_'+env.CHANGE_TARGET : REPO+'_'+env.BRANCH_NAME}"
       }
-    }
-    stage('Tests') {
-      steps {
-        runXmostest("${REPO}", 'tests')
+      options {
+        skipDefaultCheckout()
       }
-    }
-    stage('xCORE builds') {
-      steps {
-        dir("${REPO}") {
-          xcoreAllAppsBuild('examples')
-          dir("${REPO}") {
-            runXdoc('doc')
+      stages {
+        stage('Get view') {
+          steps {
+            xcorePrepareSandbox("${VIEW}", "${REPO}")
+          }
+        }
+        
+        stage('Library checks') {
+          steps {
+            xcoreLibraryChecks("${REPO}")
+          }
+        }
+        stage('Tests') {
+          steps {
+            runXmostest("${REPO}", 'tests')
+          }
+        }
+        stage('xCORE builds') {
+          steps {
+            dir("${REPO}") {
+              xcoreAllAppsBuild('examples')
+              dir("${REPO}") {
+                runXdoc('doc')
+              }
+            }
           }
         }
       }
+      post {
+        
+        cleanup {
+          xcoreCleanSandbox()
+        }
+      }
     }
-  }
-  post {
-    success {
-      updateViewfiles()
-    }
-    cleanup {
-      xcoreCleanSandbox()
+
+    stage('xcore.ai Verification'){
+      agent {
+        label 'xcore.ai-explorer'
+      }
+      environment {
+        // '/XMOS/tools' from get_tools.py and rest from tools installers
+        TOOLS_PATH = "/XMOS/tools/${params.TOOLS_VERSION}/XMOS/xTIMEcomposer/${params.TOOLS_VERSION}"
+      }
+      stages{
+        stage('Install Dependencies') {
+          steps {
+            sh '/XMOS/get_tools.py ' + params.TOOLS_VERSION
+            installDependencies()
+          }
+        }
+        stage('xrun'){
+          steps{
+            toolsEnv(TOOLS_PATH) {  // load xmos tools
+              //Just run on HW and error on incorrect binary etc. We need specific HW for it to run so just check it loads OK
+              // unstash 'AN00162'
+              // sh 'xrun --id 0 bin/XCORE_AI/AN00162_i2s_loopback_demo.xe'
+
+              //Just run on HW and error on incorrect binary etc. It will not run otherwise due to lack of loopback (intended for sim)
+              //We run xsim afterwards for actual test (with loopback)
+              // unstash 'backpressure_test'
+              // sh 'xrun --id 0 bin/XCORE_AI/backpressure_test_XCORE_AI.xe'
+              // sh 'xsim --xscope "-offline xscope.xmt" bin/XCORE_AI/backpressure_test_XCORE_AI.xe --plugin LoopbackPort.dll "-port tile[0] XS1_PORT_1G 1 0 -port tile[0] XS1_PORT_1A 1 0" > bp_test.txt'
+              // sh 'cat bp_test.txt && diff bp_test.txt tests/backpressure_test.expect'
+            }
+          }
+        }
+      }//stages
+      post {
+        cleanup {
+          cleanWs()
+        }
+      }
+    }// xcore.ai
+
+    stage('Update view files') {
+      agent {
+        label 'x86_64&&brew'
+      }
+      when {
+        expression { return currentBuild.result == "SUCCESS" }
+      }
+      steps {
+        updateViewfiles()
+      }
     }
   }
 }
+
