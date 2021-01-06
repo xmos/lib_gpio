@@ -45,6 +45,10 @@ pipeline {
           steps {
             dir("${REPO}") {
               xcoreAllAppsBuild('examples')
+              dir('examples/app_gpio_flashing_leds'){
+                runXmake(".", "", "XCOREAI=1")
+                stash name: 'app_gpio_flashing_leds', includes: 'bin/xcoreai/gpio_flashing_leds_xcoreai.xe, '
+              }
               dir("${REPO}") {
                 runXdoc('doc')
               }
@@ -79,15 +83,8 @@ pipeline {
           steps{
             toolsEnv(TOOLS_PATH) {  // load xmos tools
               //Just run on HW and error on incorrect binary etc. We need specific HW for it to run so just check it loads OK
-              // unstash 'AN00162'
-              // sh 'xrun --id 0 bin/XCORE_AI/AN00162_i2s_loopback_demo.xe'
-
-              //Just run on HW and error on incorrect binary etc. It will not run otherwise due to lack of loopback (intended for sim)
-              //We run xsim afterwards for actual test (with loopback)
-              // unstash 'backpressure_test'
-              // sh 'xrun --id 0 bin/XCORE_AI/backpressure_test_XCORE_AI.xe'
-              // sh 'xsim --xscope "-offline xscope.xmt" bin/XCORE_AI/backpressure_test_XCORE_AI.xe --plugin LoopbackPort.dll "-port tile[0] XS1_PORT_1G 1 0 -port tile[0] XS1_PORT_1A 1 0" > bp_test.txt'
-              // sh 'cat bp_test.txt && diff bp_test.txt tests/backpressure_test.expect'
+              unstash 'app_gpio_flashing_leds'
+              sh 'xrun --id 0 bin/xcoreai/gpio_flashing_leds_xcoreai.xe'
             }
           }
         }
