@@ -40,8 +40,17 @@ pipeline {
         stage('Tests') {
           steps {
             runXmostest("${REPO}", 'tests')
-            sh 'ls -l'
+            //Build XS3 tests. We don't run them but we check they build OK
+            dir('tests/gpio_input_1bit_test'){
+              runXmake(".", "", "XCOREAI=1")
+            }
+            dir('tests/gpio_input_basic_test'){
+              runXmake(".", "", "XCOREAI=1")
+            }
             dir('tests/gpio_input_events_test'){
+              runXmake(".", "", "XCOREAI=1")
+            }
+            dir('tests/gpio_output_test'){
               runXmake(".", "", "XCOREAI=1")
             }
           }
