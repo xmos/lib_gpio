@@ -40,6 +40,10 @@ pipeline {
         stage('Tests') {
           steps {
             runXmostest("${REPO}", 'tests')
+            sh 'ls -l'
+            dir('tests/gpio_input_events_test'){
+              runXmake(".", "", "XCOREAI=1")
+            }
           }
         }
         stage('xCORE builds') {
