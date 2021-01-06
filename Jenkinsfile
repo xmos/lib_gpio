@@ -46,6 +46,7 @@ pipeline {
             dir("${REPO}") {
               xcoreAllAppsBuild('examples')
               dir('examples/app_gpio_flashing_leds'){
+                sh 'xcc --version'
                 runXmake(".", "", "XCOREAI=1")
                 stash name: 'app_gpio_flashing_leds', includes: 'bin/xcoreai/gpio_flashing_leds_xcoreai.xe, '
               }
