@@ -19,7 +19,8 @@ pipeline {
       }
       environment {
         REPO = 'lib_gpio'
-        VIEW = "${env.JOB_NAME.contains('PR-') ? REPO+'_'+env.CHANGE_TARGET : REPO+'_'+env.BRANCH_NAME}"
+        // VIEW = "${env.JOB_NAME.contains('PR-') ? REPO+'_'+env.CHANGE_TARGET : REPO+'_'+env.BRANCH_NAME}"
+        VIEW = "lib_gpio_feature_test_xs3"
       }
       options {
         skipDefaultCheckout()
@@ -46,7 +47,6 @@ pipeline {
             dir("${REPO}") {
               xcoreAllAppsBuild('examples')
               dir('examples/app_gpio_flashing_leds'){
-                sh 'xcc --version'
                 runXmake(".", "", "XCOREAI=1")
                 stash name: 'app_gpio_flashing_leds', includes: 'bin/xcoreai/gpio_flashing_leds_xcoreai.xe, '
               }
