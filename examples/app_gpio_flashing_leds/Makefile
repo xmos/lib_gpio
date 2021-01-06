@@ -14,7 +14,7 @@ XCC_FLAGS = $(COMMON_FLAGS)
 APP_NAME = gpio_flashing_leds
 else
 TARGET = XCORE-AI-EXPLORER
-XCC_FLAGS_xcoreai = $(COMMON_FLAGS)
+XCC_FLAGS_xcoreai = $(COMMON_FLAGS) -DXCOREAI=1
 APP_NAME = gpio_flashing_leds_xcoreai
 endif
 
