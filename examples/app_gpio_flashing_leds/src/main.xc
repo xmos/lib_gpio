@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020, XMOS Ltd, All rights reserved
+// Copyright (c) 2014-2021, XMOS Ltd, All rights reserved
 #include <xs1.h>
 #include <gpio.h>
 
