@@ -1,8 +1,12 @@
-// Copyright (c) 2014-2019, XMOS Ltd, All rights reserved
+// Copyright (c) 2014-2021, XMOS Ltd, All rights reserved
 #include <xs1.h>
 #include <gpio.h>
 
+#ifdef XCOREAI
+port p_led1 = XS1_PORT_4C;
+#else
 port p_led1 = XS1_PORT_1A;
+#endif
 port p_led2 = XS1_PORT_1B;
 
 void flash_leds(client output_gpio_if led1, client output_gpio_if led2)

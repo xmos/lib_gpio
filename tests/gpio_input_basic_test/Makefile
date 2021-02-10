@@ -1,25 +1,9 @@
-# The TARGET variable determines what target system the application is
-# compiled for. It either refers to an XN file in the source directories
-# or a valid argument for the --target option when compiling.
-
-TARGET = SLICEKIT-L16
-
-# The APP_NAME variable determines the name of the final .xe file. It should
-# not include the .xe postfix. If left blank the name will default to
-# the project name
-
-APP_NAME =
-
-# The flags passed to xcc when building the application
-# You can also set the following to override flags for a particular language:
-#
-#    XCC_XC_FLAGS, XCC_C_FLAGS, XCC_ASM_FLAGS, XCC_CPP_FLAGS
-#
-# If the variable XCC_MAP_FLAGS is set it overrides the flags passed to
-# xcc for the final link (mapping) stage.
-
 COMMON_FLAGS = -O2 -g -save-temps -DDEBUG_PRINT_ENABLE=1 -report
 
+
+XCOREAI ?= 0
+ifeq ($(XCOREAI),0)
+TARGET = SLICEKIT-L16
 XCC_FLAGS_input_basic = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=0 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=0
 XCC_FLAGS_input_events = $(COMMON_FLAGS) -DEVENTS=1 -DTIMESTAMPS=0 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=0
 XCC_FLAGS_input_timestamps = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=1 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=0
@@ -27,6 +11,22 @@ XCC_FLAGS_input_events_timestamps = $(COMMON_FLAGS) -DEVENTS=1 -DTIMESTAMPS=1 -D
 XCC_FLAGS_input_supply_pin_map = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=0 -DSUPPLY_PIN_MAP=1 -DCROSSTILE=0
 XCC_FLAGS_input_crosstile = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=0 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=1
 XCC_FLAGS_input_events_timestamps_supply_pin_map_crosstile = $(COMMON_FLAGS) -DEVENTS=1 -DTIMESTAMPS=1 -DSUPPLY_PIN_MAP=1 -DCROSSTILE=1
+else
+TARGET = XCORE-AI-EXPLORER
+XCC_FLAGS_input_basic_xcoreai = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=0 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=0
+XCC_FLAGS_input_events_xcoreai = $(COMMON_FLAGS) -DEVENTS=1 -DTIMESTAMPS=0 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=0
+XCC_FLAGS_input_timestamps_xcoreai = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=1 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=0
+XCC_FLAGS_input_events_timestamps_xcoreai = $(COMMON_FLAGS) -DEVENTS=1 -DTIMESTAMPS=1 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=0
+XCC_FLAGS_input_supply_pin_map_xcoreai = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=0 -DSUPPLY_PIN_MAP=1 -DCROSSTILE=0
+XCC_FLAGS_input_crosstile_xcoreai = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=0 -DSUPPLY_PIN_MAP=0 -DCROSSTILE=1
+XCC_FLAGS_input_events_timestamps_supply_pin_map_crosstile_xcoreai = $(COMMON_FLAGS) -DEVENTS=1 -DTIMESTAMPS=1 -DSUPPLY_PIN_MAP=1 -DCROSSTILE=1
+endif
+
+# The APP_NAME variable determines the name of the final .xe file. It should
+# not include the .xe postfix. If left blank the name will default to
+# the project name
+
+APP_NAME =
 
 # The USED_MODULES variable lists other module used by the application.
 
