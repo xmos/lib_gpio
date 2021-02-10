@@ -42,6 +42,8 @@ pipeline {
             runXmostest("${REPO}", 'tests')
             //Build XS3 tests. We don't run them but we check they build OK
             dir('tests/gpio_input_1bit_test'){
+              sh 'ls'
+              sh 'xcc --version'
               runXmake(".", "", "XCOREAI=1")
             }
             dir('tests/gpio_input_basic_test'){
