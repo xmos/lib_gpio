@@ -1,4 +1,4 @@
-@Library('xmos_jenkins_shared_library@v0.15.1') _
+@Library('xmos_jenkins_shared_library@v0.16.0') _
 
 getApproval()
 
@@ -41,19 +41,11 @@ pipeline {
           steps {
             runXmostest("${REPO}", 'tests')
             //Build XS3 tests. We don't run them but we check they build OK
-            dir('tests/gpio_input_1bit_test'){
-              sh 'ls'
-              sh 'xcc --version'
-              runXmake(".", "", "XCOREAI=1")
-            }
-            dir('tests/gpio_input_basic_test'){
-              runXmake(".", "", "XCOREAI=1")
-            }
-            dir('tests/gpio_input_events_test'){
-              runXmake(".", "", "XCOREAI=1")
-            }
-            dir('tests/gpio_output_test'){
-              runXmake(".", "", "XCOREAI=1")
+            dir("${REPO}/tests") {
+              runXmake("gpio_input_1bit_test", "", "XCOREAI=1")
+              runXmake("gpio_input_basic_test", "", "XCOREAI=1")
+              runXmake("gpio_input_events_test", "", "XCOREAI=1")
+              runXmake("gpio_output_test", "", "XCOREAI=1")
             }
           }
         }
