@@ -1,10 +1,10 @@
-@Library('xmos_jenkins_shared_library@v0.14.2') _
+@Library('xmos_jenkins_shared_library@v0.16.2') _
 
 getApproval()
 
 pipeline {
   agent {
-    label 'x86_64&&brew'
+    label 'x86_64&&brew&&macOS'
   }
   environment {
     REPO = 'lib_gpio'
@@ -38,6 +38,9 @@ pipeline {
             runXdoc('doc')
           }
         }
+
+        // Archive all the generated .pdf docs
+        archiveArtifacts artifacts: "${REPO}/**/pdf/*.pdf", fingerprint: true, allowEmptyArchive: true
       }
     }
   }
