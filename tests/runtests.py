@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# Copyright (c) 2015-2019, XMOS Ltd, All rights reserved
+# Copyright 2015-2021 XMOS LIMITED.
+# This Software is subject to the terms of the XMOS Public Licence: Version 1.
 import xmostest
 
 if __name__ == "__main__":
