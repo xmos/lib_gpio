@@ -32,8 +32,8 @@ void input_gpio(server input_gpio_if i[n], static const size_t n,
       result = (result >> pos) & 1;
       break;
     case i[int j].event_when_pins_eq(unsigned value):
-      //fail("input_gpio task does not support events.");
-      __builtin_trap();
+      fail("input_gpio task does not support events.");
+      //__builtin_trap();
       break;
     }
   }
