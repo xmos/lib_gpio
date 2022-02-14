@@ -33,11 +33,11 @@ void input_gpio(server input_gpio_if i[n], static const size_t n,
       break;
     case i[int j].event_when_pins_eq(unsigned value):
       //fail("input_gpio task does not support events.");
+      return;
       break;
     }
   }
 }
-
 
 #pragma unsafe arrays
 [[combinable]]
