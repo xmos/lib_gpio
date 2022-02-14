@@ -8,7 +8,8 @@ pipeline {
   }
   environment {
     REPO = 'lib_gpio'
-    VIEW = "${env.JOB_NAME.contains('PR-') ? REPO+'_'+env.CHANGE_TARGET : REPO+'_'+env.BRANCH_NAME}"
+    //VIEW = "${env.JOB_NAME.contains('PR-') ? REPO+'_'+env.CHANGE_TARGET : REPO+'_'+env.BRANCH_NAME}"
+    VIEW = 'lib_gpio_develop_tools_15_1_4'
   }
   options {
     skipDefaultCheckout()
@@ -19,7 +20,7 @@ pipeline {
         xcorePrepareSandbox("${VIEW}", "${REPO}")
       }
     }
-    
+
     stage('Library checks') {
       steps {
         xcoreLibraryChecks("${REPO}")
