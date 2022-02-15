@@ -1,4 +1,4 @@
-@Library('xmos_jenkins_shared_library@v0.16.2') _
+@Library('xmos_jenkins_shared_library@v0.17.0') _
 
 getApproval()
 
@@ -8,8 +8,7 @@ pipeline {
   }
   environment {
     REPO = 'lib_gpio'
-    //VIEW = "${env.JOB_NAME.contains('PR-') ? REPO+'_'+env.CHANGE_TARGET : REPO+'_'+env.BRANCH_NAME}"
-    VIEW = 'lib_gpio_develop_tools_15_1_4'
+    VIEW = getViewName(REPO)
   }
   options {
     skipDefaultCheckout()
