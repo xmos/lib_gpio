@@ -1,6 +1,11 @@
 GPIO library change log
 =======================
 
+2.2.0
+-----
+
+  * CHANGED: Update tests to support tools 15.x.x
+
 2.1.0
 -----
 

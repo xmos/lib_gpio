@@ -1,4 +1,4 @@
-@Library('xmos_jenkins_shared_library@v0.16.2') _
+@Library('xmos_jenkins_shared_library@v0.17.0') _
 
 getApproval()
 
@@ -8,7 +8,7 @@ pipeline {
   }
   environment {
     REPO = 'lib_gpio'
-    VIEW = "${env.JOB_NAME.contains('PR-') ? REPO+'_'+env.CHANGE_TARGET : REPO+'_'+env.BRANCH_NAME}"
+    VIEW = getViewName(REPO)
   }
   options {
     skipDefaultCheckout()
@@ -19,7 +19,7 @@ pipeline {
         xcorePrepareSandbox("${VIEW}", "${REPO}")
       }
     }
-    
+
     stage('Library checks') {
       steps {
         xcoreLibraryChecks("${REPO}")

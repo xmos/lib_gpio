@@ -1,4 +1,3 @@
 Checker driving port
 Checker expecting 0x\w as trigger data
 input_gpio task does not support events.
-Unhandled exception: ECALL, data: 0x00000000
