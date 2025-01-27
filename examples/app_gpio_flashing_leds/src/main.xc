@@ -1,10 +1,10 @@
-// Copyright 2014-2021 XMOS LIMITED.
+// Copyright 2014-2025 XMOS LIMITED.
 // This Software is subject to the terms of the XMOS Public Licence: Version 1.
 #include <xs1.h>
 #include <gpio.h>
 
-port p_led1 = XS1_PORT_1A;
-port p_led2 = XS1_PORT_1B;
+port p_led1 = XS1_PORT_1N;
+port p_led2 = XS1_PORT_1O;
 
 void flash_leds(client output_gpio_if led1, client output_gpio_if led2)
 {
