@@ -1,5 +1,15 @@
-GPIO library change log
-=======================
+lib_gpio change log
+===================
+
+2.3.0
+-----
+
+  * ADDED:   Support for XCommon CMake
+  * CHANGED: Example application runs on xcore.ai hardware
+
+  * Changes to dependencies:
+
+    - lib_xassert: 2.0.0 -> 4.3.1
 
 2.2.0
 -----
