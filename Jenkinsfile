@@ -1,53 +1,69 @@
-@Library('xmos_jenkins_shared_library@v0.32.0') _
+// This file relates to internal XMOS infrastructure and should be ignored by external users
+
+@Library('xmos_jenkins_shared_library@v0.38.0') _
 
 getApproval()
 
 pipeline {
   agent {
-    label 'x86_64&&linux'
+    label 'documentation && x86_64 && linux'
   }
   environment {
-    REPO = 'lib_gpio'
-    VIEW = getViewName(REPO)
+    REPO_NAME = 'lib_gpio'
+    VIEW = getViewName(REPO_NAME)
   }
   options {
+    buildDiscarder(xmosDiscardBuildSettings())
     skipDefaultCheckout()
+    timestamps()
+  }
+  parameters {
+    string(
+      name: 'TOOLS_VERSION',
+      defaultValue: '15.3.0',
+      description: 'The XTC tools version'
+    )
+    string(
+      name: 'INFR_APPS_VERSION',
+      defaultValue: 'v2.0.1',
+      description: 'The infr_apps version'
+    )
   }
   stages {
-    stage('Get view') {
+    stage('Checkout') {
       steps {
-        xcorePrepareSandbox("${VIEW}", "${REPO}")
+        println "Stage running on ${env.NODE_NAME}"
+        xcorePrepareSandbox("${VIEW}", "${REPO_NAME}")
+      }
+    }
+    stage('Build examples and lib checks' ) {
+      steps {
+        dir("${REPO_NAME}/examples") {
+          xcoreBuild()
+        }
+        warnError("lib checks") {
+          runLibraryChecks("${WORKSPACE}/${REPO_NAME}", "${params.INFR_APPS_VERSION}")
+        }
       }
     }
 
-    stage('Library checks') {
-      steps {
-        xcoreLibraryChecks("${REPO}")
-      }
-    }
     stage('Tests') {
       steps {
-        runXmostest("${REPO}", 'tests')
+        runXmostest("${REPO_NAME}", 'tests')
       }
     }
     stage('xCORE builds') {
       steps {
-        dir("${REPO}") {
-          xcoreAllAppsBuild('examples')
-          dir("${REPO}") {
-            runXdoc('doc')
-          }
+        dir("${REPO_NAME}/${REPO_NAME}") {
+          runXdoc('doc')
         }
 
         // Archive all the generated .pdf docs
-        archiveArtifacts artifacts: "${REPO}/**/pdf/*.pdf", fingerprint: true, allowEmptyArchive: true
+        archiveArtifacts artifacts: "${REPO_NAME}/**/pdf/*.pdf", fingerprint: true, allowEmptyArchive: true
       }
     }
   }
   post {
-    success {
-      updateViewfiles()
-    }
     cleanup {
       xcoreCleanSandbox()
     }
