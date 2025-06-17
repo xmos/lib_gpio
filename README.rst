@@ -1,39 +1,64 @@
-GPIO Library
-============
+:orphan:
 
-Overview
---------
+#############################################
+lib_gpio: GPIO abstraction for multibit ports
+#############################################
 
-The XMOS GPIO library allows you to access xCORE ports as low-speed GPIO.
+:vendor: XMOS
+:version: 2.3.0
+:scope: General Use
+:description: GPIO abstraction for multibit ports
+:category: General Purpose
+:keywords: GPIO, multibit, ports
+:devices: xcore-200, xcore.ai
 
-Although xCORE ports can be directly accessed via the xC programming
+*******
+Summary
+*******
+
+The XMOS GPIO library allows accessing xcore ports as low-speed GPIO.
+
+Although xcore ports can be directly accessed via the xC programming
 language this library allows more flexible usage. In particular, it
 allows splitting a multi-pin output/input port to be able to use
 the individual pins independently. It also allows accessing ports
 across separate XMOS tiles or separate XMOS chips.
 
+********
 Features
-........
+********
 
- * Abstract interface to GPIO functionality of XMOS ports
- * Allow control of individual bits of multi-bit ports
- * Allow access to ports across tiles
+* Abstract interface to GPIO functionality of XMOS ports
+* Allow control of individual bits of multi-bit ports
+* Allow access to ports across tiles
 
-Operating modes
-...............
+****************
+Development repo
+****************
 
- * Multi-bit output for individual access to the pins of a multi-bit output port
- * Multi-bit input for individual access to the pins of a multi-bit input port
- * Multi-bit input for individual access to the pins of a multi-bit
-   input port allowing the application to react to events on those pins
+* `lib_gpio <https://www.github.com/xmos/lib_gpio>`_
 
-Software version and dependencies
-.................................
+**************
+Required tools
+**************
 
-The CHANGELOG contains information about the current and previous versions.
-For a list of direct dependencies, look for DEPENDENT_MODULES in lib_gpio/module_build_info.
+* XMOS XTC Tools: 15.3.1
 
+*********************************
+Required libraries (dependencies)
+*********************************
+
+* lib_xassert (www.github.com/xmos/lib_xassert)
+
+*************************
 Related application notes
-.........................
+*************************
 
-Currently there are none.
+* None
+
+*******
+Support
+*******
+
+This package is supported by XMOS Ltd. Issues can be raised against the software at
+`www.xmos.com/support <https://www.xmos.com/support>`_
