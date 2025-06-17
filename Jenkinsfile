@@ -2,6 +2,15 @@
 
 @Library('xmos_jenkins_shared_library@v0.39.0') _
 
+def clone_test_deps() {
+  dir("${WORKSPACE}") {
+    sh "git clone git@github.com:xmos/test_support"
+    sh "git -C test_support checkout e62b73a1260069c188a7d8fb0d91e1ef80a3c4e1"
+    sh "git clone git@github.com:xmos/lib_logging"
+    sh "git -C lib_logging checkout v3.3.1"
+  }
+}
+
 getApproval()
 
 pipeline {
@@ -10,7 +19,6 @@ pipeline {
   }
   environment {
     REPO_NAME = 'lib_gpio'
-    VIEW = getViewName(REPO_NAME)
   }
   options {
     buildDiscarder(xmosDiscardBuildSettings())
@@ -38,7 +46,9 @@ pipeline {
     stage('Checkout') {
       steps {
         println "Stage running on ${env.NODE_NAME}"
-        xcorePrepareSandbox("${VIEW}", "${REPO_NAME}")
+        dir("${REPO_NAME}") {
+          checkoutScmShallow()
+        }
       }
     }
     stage('Build examples and lib checks' ) {
@@ -54,7 +64,15 @@ pipeline {
 
     stage('Tests') {
       steps {
-        runXmostest("${REPO_NAME}", 'tests')
+        clone_test_deps()
+        withTools(params.TOOLS_VERSION) {
+          dir("${REPO_NAME}/tests") {
+            createVenv(reqFile: "requirements.txt")
+            withVenv{
+              sh "pytest -v"
+            }
+          }
+        } // tools
       }
     }
     stage('doc build') {

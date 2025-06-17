@@ -2,7 +2,7 @@
 # compiled for. It either refers to an XN file in the source directories
 # or a valid argument for the --target option when compiling.
 
-TARGET = SLICEKIT-L16
+TARGET = XK-EVK-XU316
 
 # The APP_NAME variable determines the name of the final .xe file. It should
 # not include the .xe postfix. If left blank the name will default to
@@ -18,11 +18,12 @@ APP_NAME =
 # If the variable XCC_MAP_FLAGS is set it overrides the flags passed to
 # xcc for the final link (mapping) stage.
 
-COMMON_FLAGS = -O2 -g -save-temps -DDEBUG_PRINT_ENABLE=1 -report
+COMMON_FLAGS = -O3 -g -DDEBUG_PRINT_ENABLE=1 -report
 
-XCC_FLAGS_input_basic = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=0
-XCC_FLAGS_input_events = $(COMMON_FLAGS) -DEVENTS=1 -DTIMESTAMPS=0
-XCC_FLAGS_input_timestamps = $(COMMON_FLAGS) -DEVENTS=0 -DTIMESTAMPS=1
+EVENTS ?= 0
+TIMESTAMPS ?= 0
+
+XCC_FLAGS_$(EVENTS)_$(TIMESTAMPS) = $(COMMON_FLAGS) -DEVENTS=$(EVENTS) -DTIMESTAMPS=$(TIMESTAMPS)
 
 # The USED_MODULES variable lists other module used by the application.
 

@@ -1,4 +1,4 @@
-// Copyright 2015-2021 XMOS LIMITED.
+// Copyright 2015-2025 XMOS LIMITED.
 // This Software is subject to the terms of the XMOS Public Licence: Version 1.
 #include <gpio.h>
 #include <xs1.h>
@@ -24,9 +24,6 @@ void wait_for_termination_signal() {
 
 void drive_port(client output_gpio_if output_port, unsigned int client_num) {
     unsigned int expected_pin_data = (client_num & 1);
-    if (SUPPLY_PIN_MAP) {
-        expected_pin_data = !expected_pin_data;
-    }
 
     if (TIMESTAMPS) {
         gpio_time_t ts1, ts2;
@@ -60,7 +57,7 @@ void drive_port(client output_gpio_if output_port, unsigned int client_num) {
 int main(void) {
     interface output_gpio_if i_output_port[NUM_CLIENTS];
 #if SUPPLY_PIN_MAP
-    char pin_map[NUM_CLIENTS] = {1, 0, 3, 2};
+    char pin_map[NUM_CLIENTS] = {0, 1, 2, 3};
 #else
 #define pin_map null
 #endif
