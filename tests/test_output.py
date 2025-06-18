@@ -1,23 +1,20 @@
 #!/usr/bin/env python
-# Copyright 2015-2021 XMOS LIMITED.
+# Copyright 2015-2025 XMOS LIMITED.
 # This Software is subject to the terms of the XMOS Public Licence: Version 1.
-import xmostest
+import pytest
+import Pyxsim
+from Pyxsim import testers
 from gpio_basic_checker import GPIOBasicChecker
 
-def do_output_test(timestamps, supply_pin_map):
-    resources = xmostest.request_resource("xsim")
-
-    path = ''
-    if not timestamps and not supply_pin_map:
-        path += '_basic'
-    else:
-        if timestamps:
-            path += '_timestamps'
-        if supply_pin_map:
-            path += '_supply_pin_map'
-
-    binary = 'gpio_output_test/bin/output' + path + \
-        '/gpio_output_test_output' + path + '.xe'
+@pytest.mark.parametrize("timestamps, supply_pin_map", [[False, False],
+                                                        [False, True],
+                                                        [True, False]
+                                                        ])
+def test_output(timestamps, supply_pin_map, capfd):
+    timestamps = int(timestamps)
+    supply_pin_map = int(supply_pin_map)
+    path = f"gpio_output_test/bin/{timestamps}_{supply_pin_map}/gpio_output_test_{timestamps}_{supply_pin_map}.xe"
+    build_ops = [f"TIMESTAMPS={timestamps}", f"SUPPLY_PIN_MAP={supply_pin_map}"]
 
     checker = GPIOBasicChecker(mode="output",
                                test_port="tile[0]:XS1_PORT_4D",
@@ -25,21 +22,9 @@ def do_output_test(timestamps, supply_pin_map):
                                num_clients=4,
                                trigger_port="tile[0]:XS1_PORT_4B")
 
-    if supply_pin_map:
-        expected_result = 'output_supply_pin_map_test.expected'
-    else:
-        expected_result = 'output_test.expected'
-    tester = xmostest.ComparisonTester(open(expected_result),
-                                       'lib_gpio', 'gpio_sim_tests',
-                                       'output_test',
-                                       {'timestamps':timestamps,
-                                       'supply_pin_map':supply_pin_map},
-                                       regexp=True)
+    expected_result = "expected/output_test.expected"
 
-    xmostest.run_on_simulator(resources['xsim'], binary, simthreads = [checker],
-                              tester = tester)
+    tester = testers.ComparisonTester(open(expected_result), regexp=True)
 
-def runtest():
-    do_output_test(timestamps=False, supply_pin_map=False)
-    do_output_test(timestamps=False, supply_pin_map=True)
-    do_output_test(timestamps=True, supply_pin_map=False)
+    assert Pyxsim.run_on_simulator(
+        path, simthreads=[checker], tester=tester, capfd=capfd, build_options=build_ops)

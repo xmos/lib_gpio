@@ -1,36 +1,28 @@
 #!/usr/bin/env python
-# Copyright 2015-2021 XMOS LIMITED.
+# Copyright 2015-2025 XMOS LIMITED.
 # This Software is subject to the terms of the XMOS Public Licence: Version 1.
-import xmostest
+import pytest
+import Pyxsim
+from Pyxsim import testers
 from gpio_events_checker import GPIOEventsChecker
 
-def do_input_events_test(events):
-    resources = xmostest.request_resource("xsim")
+@pytest.mark.parametrize("events", [False, True])
+def test_input_events(events, capfd):
+    events = int(events)
+    path = f"gpio_input_events_test/bin/{events}/gpio_input_events_test_{events}.xe"
+    build_ops = [f"EVENTS={events}"]
 
-    path = ''
-    if not events:
-        path += '_basic'
+    if events:
+        expected_result = "expected/input_events_test_events.expected"
     else:
-        if events:
-            path += '_events'
-
-    binary = 'gpio_input_events_test/bin/input' + path + \
-        '/gpio_input_events_test_input' + path + '.xe'
+        expected_result = "expected/input_events_test_basic.expected"
 
     checker = GPIOEventsChecker(test_port="tile[0]:XS1_PORT_4D",
                                 expected_test_port_data=0b1010,
                                 num_clients=4,
                                 trigger_port="tile[0]:XS1_PORT_4B")
 
-    tester = xmostest.ComparisonTester(open('input_events_test%s.expected' % path),
-                                       'lib_gpio', 'gpio_sim_tests',
-                                       'input_events_test',
-                                       {'events':events},
-                                       regexp=True)
+    tester = testers.ComparisonTester(open(expected_result), regexp=True)
 
-    xmostest.run_on_simulator(resources['xsim'], binary, simthreads = [checker],
-                              tester = tester)
-
-def runtest():
-    do_input_events_test(events=False)
-    do_input_events_test(events=True)
+    assert Pyxsim.run_on_simulator(
+        path, simthreads=[checker], tester=tester, capfd=capfd, build_options=build_ops)

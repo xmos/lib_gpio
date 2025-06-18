@@ -1,8 +1,8 @@
-# Copyright 2015-2021 XMOS LIMITED.
+# Copyright 2015-2025 XMOS LIMITED.
 # This Software is subject to the terms of the XMOS Public Licence: Version 1.
-import xmostest
+from Pyxsim import SimThread
 
-class GPIOEventsChecker(xmostest.SimThread):
+class GPIOEventsChecker(SimThread):
     """
     This simulator thread will write to pins to allow xCORE to event.
     """
@@ -14,9 +14,9 @@ class GPIOEventsChecker(xmostest.SimThread):
         self._num_clients = num_clients
         self._trigger_port = trigger_port
 
-        print("Checking events on port %s with %d clients" % (self._test_port,
-              self._num_clients))
-        print("Using port %s as trigger" % (self._trigger_port))
+        # print("Checking events on port %s with %d clients" % (self._test_port,
+        #       self._num_clients))
+        # print("Using port %s as trigger" % (self._trigger_port))
 
     def drive_port(self, xsi):
         # Check the xCORE is not trying to drive the port

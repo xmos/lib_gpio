@@ -32,6 +32,12 @@ Features
 * Allow control of individual bits of multi-bit ports
 * Allow access to ports across tiles
 
+************
+Known issues
+************
+
+* None
+
 ****************
 Development repo
 ****************
