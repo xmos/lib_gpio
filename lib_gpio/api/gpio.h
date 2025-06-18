@@ -109,7 +109,7 @@ typedef interface output_gpio_if{
  * \param   i         The array of interfaces to connect to other tasks.
  * \param   n         The number of interfaces connected.
  * \param   p         The output port to be split.
- * \param   pin_map   This array maps the connected interfaces to the pin
+ * \param   pin_map   This array maps the connected interfaces to the pin(s)
  *                    of the port. For example, if 3 clients are connected
  *                    to split a 8-bit port and the array {2,5,3} is supplied.
  *                    Then bit 2 will go to interface 0, bit 5 to inteface 1
@@ -117,7 +117,7 @@ typedef interface output_gpio_if{
  *                    argument then the pin map is assumed to be {0,1,2...}.
  */
 [[distributable]]
-void output_gpio(SERVER_ARRAY_OF_SIZE(output_gpio_if, i, n), 
+void output_gpio(SERVER_ARRAY_OF_SIZE(output_gpio_if, i, n),
                   static_const_size_t n, out_port_t p,
                   NULLABLE_ARRAY_OF_SIZE(char, pin_map, n));
 
@@ -132,7 +132,7 @@ void output_gpio(SERVER_ARRAY_OF_SIZE(output_gpio_if, i, n),
  * \param   i         The array of interfaces to connect to other tasks.
  * \param   n         The number of interfaces connected.
  * \param   p         The input port to be split.
- * \param   pin_map   This array maps the connected interfaces to the pin
+ * \param   pin_map   This array maps the connected interfaces to the pin(s)
  *                    of the port. For example, if 3 clients are connected
  *                    to split a 8-bit port and the array {2,5,3} is supplied.
  *                    Then bit 2 will go to interface 0, bit 5 to inteface 1
@@ -140,7 +140,7 @@ void output_gpio(SERVER_ARRAY_OF_SIZE(output_gpio_if, i, n),
  *                    argument then the pin map is assumed to be {0,1,2...}.
  */
 [[distributable]]
-void input_gpio(SERVER_ARRAY_OF_SIZE(input_gpio_if, i, n), 
+void input_gpio(SERVER_ARRAY_OF_SIZE(input_gpio_if, i, n),
                 static_const_size_t n, in_port_t p,
                 NULLABLE_ARRAY_OF_SIZE(char, pin_map, n));
 
@@ -154,7 +154,7 @@ void input_gpio(SERVER_ARRAY_OF_SIZE(input_gpio_if, i, n),
  * \param   i         The array of interfaces to connect to other tasks.
  * \param   n         The number of interfaces connected.
  * \param   p         The input port to be split.
- * \param   pin_map   This array maps the connected interfaces to the pin
+ * \param   pin_map   This array maps the connected interfaces to the pin(s)
  *                    of the port. For example, if 3 clients are connected
  *                    to split a 8-bit port and the array {2,5,3} is supplied.
  *                    Then bit 2 will go to interface 0, bit 5 to inteface 1
