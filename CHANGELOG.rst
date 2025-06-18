@@ -5,8 +5,8 @@ lib_gpio change log
 -----
 
   * ADDED:   Support for XCommon CMake
-  * CHANGED: Example application runs on xcore.ai hardware
-  * CHANGED: Update tests to support tools 15.x.x
+  * CHANGED: Example applications run on xcore.ai hardware
+  * CHANGED: Update tests to support XTC tools 15.x.x
 
   * Changes to dependencies:
 

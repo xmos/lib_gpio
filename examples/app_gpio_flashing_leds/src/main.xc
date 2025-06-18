@@ -3,8 +3,7 @@
 #include <xs1.h>
 #include <gpio.h>
 
-port p_led1 = XS1_PORT_1N;
-port p_led2 = XS1_PORT_1O;
+port p_led = XS1_PORT_4C;
 
 void flash_leds(client output_gpio_if led1, client output_gpio_if led2)
 {
@@ -19,11 +18,11 @@ void flash_leds(client output_gpio_if led1, client output_gpio_if led2)
 }
 
 int main() {
-  interface output_gpio_if i_led1[1], i_led2[1];
+  interface output_gpio_if i_led[2];
+  char pin_map[2] = {1, 3}; // i_led[0] -> pin 1, i_led[1] -> pin 3
   par {
-    output_gpio(i_led1, 1, p_led1, null);
-    output_gpio(i_led2, 1, p_led2, null);
-    flash_leds(i_led1[0], i_led2[0]);
+    output_gpio(i_led, 2, p_led, pin_map);
+    flash_leds(i_led[0], i_led[1]);
   }
   return 0;
 }

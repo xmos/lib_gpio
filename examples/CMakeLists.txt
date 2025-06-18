@@ -3,3 +3,5 @@ include($ENV{XMOS_CMAKE_PATH}/xcommon.cmake)
 project(lib_gpio_examples)
 
 add_subdirectory(app_gpio_flashing_leds)
+add_subdirectory(app_gpio_input)
+add_subdirectory(app_gpio_input_event)
