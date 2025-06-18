@@ -5,7 +5,7 @@ lib_gpio: GPIO abstraction for multibit ports
 #############################################
 
 :vendor: XMOS
-:version: 2.3.0
+:version: 2.2.0
 :scope: General Use
 :description: GPIO abstraction for multibit ports
 :category: General Purpose

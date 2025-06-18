@@ -3,7 +3,7 @@
 lib_name: lib_gpio
 project: '{{lib_name}}'
 title: '{{lib_name}}: GPIO abstraction for multibit ports'
-version: 2.3.0
+version: 2.2.0
 
 
 documentation:
