@@ -9,26 +9,26 @@ lib_gpio: GPIO abstraction for multibit ports
 :scope: General Use
 :description: GPIO abstraction for multibit ports
 :category: General Purpose
-:keywords: GPIO, multibit, ports
+:keywords: GPIO, ports
 :devices: xcore-200, xcore.ai
 
 *******
 Summary
 *******
 
-The XMOS GPIO library allows accessing xcore ports as low-speed GPIO.
+`lib_gpio` allows accessing `xcore` ports as low-speed GPIO.
 
 Although xcore ports can be directly accessed via the xC programming
 language this library allows more flexible usage. In particular, it
 allows splitting a multi-pin output/input port to be able to use
 the individual pins independently. It also allows accessing ports
-across separate XMOS tiles or separate XMOS chips.
+across separate `xcore` tiles or separate `xcore` devices.
 
 ********
 Features
 ********
 
-* Abstract interface to GPIO functionality of XMOS ports
+* Abstract interface to GPIO functionality of `xcore` ports
 * Allow control of individual bits of multi-bit ports
 * Allow access to ports across tiles
 
@@ -54,7 +54,7 @@ Required tools
 Required libraries (dependencies)
 *********************************
 
-* lib_xassert (www.github.com/xmos/lib_xassert)
+* lib_xassert (www.xmos.com/libraries/lib_xassert)
 
 *************************
 Related application notes

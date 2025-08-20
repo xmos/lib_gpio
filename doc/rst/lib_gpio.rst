@@ -6,13 +6,13 @@ lib_gpio: GPIO abstraction for multibit ports
 Inroduction
 ***********
 
-The XMOS GPIO library allows accessing xcore ports as low-speed GPIO.
+`lib_gpio` allows accessing `xcore` ports as low-speed GPIO.
 
 Although xcore ports can be directly accessed via the xC programming
 language this library allows more flexible usage. In particular, it
 allows splitting a multi-pin output/input port to be able to use
 the individual pins independently. It also allows accessing ports
-across separate XMOS tiles or separate XMOS chips.
+across separate `xcore` tiles or separate `xcore` devices.
 
 ``lib_gpio`` is intended to be used with the `XCommon CMake <https://www.xmos.com/file/xcommon-cmake-documentation/?version=latest>`_
 , the `XMOS` application build and dependency management system.
@@ -227,7 +227,7 @@ based functions of the input GPIO interface
 .. code-block:: C
 
   port p = XS1_PORT_4C;
-   
+
   int main(void) {
     input_gpio_if i_gpio[3];
     par {
