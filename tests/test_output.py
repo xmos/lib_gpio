@@ -4,17 +4,28 @@
 import pytest
 import Pyxsim
 from Pyxsim import testers
+from pathlib import Path
 from gpio_basic_checker import GPIOBasicChecker
+from helpers import print_expected_vs_output
+
 
 @pytest.mark.parametrize("timestamps, supply_pin_map", [[False, False],
                                                         [False, True],
                                                         [True, False]
                                                         ])
-def test_output(timestamps, supply_pin_map, capfd):
+def test_output(timestamps, supply_pin_map, capfd, verbosity):
+
     timestamps = int(timestamps)
     supply_pin_map = int(supply_pin_map)
-    path = f"gpio_output_test/bin/{timestamps}_{supply_pin_map}/gpio_output_test_{timestamps}_{supply_pin_map}.xe"
-    build_ops = [f"TIMESTAMPS={timestamps}", f"SUPPLY_PIN_MAP={supply_pin_map}"]
+
+    test_name = Path(__file__).stem
+    file_path = Path(__file__).resolve().parent
+
+    bin_path = file_path/f"{test_name}/bin/{timestamps}_{supply_pin_map}/{test_name}_{timestamps}_{supply_pin_map}.xe"
+    assert bin_path.exists()
+
+    expected_file = file_path/f"expected/{test_name}.expected"
+    assert expected_file.exists()
 
     checker = GPIOBasicChecker(mode="output",
                                test_port="tile[0]:XS1_PORT_4D",
@@ -22,9 +33,15 @@ def test_output(timestamps, supply_pin_map, capfd):
                                num_clients=4,
                                trigger_port="tile[0]:XS1_PORT_4B")
 
-    expected_result = "expected/output_test.expected"
+    with open(expected_file) as exp:
+        expected = exp.read().splitlines()
 
-    tester = testers.ComparisonTester(open(expected_result), regexp=True)
+    tester = testers.ComparisonTester(open(expected_file), regexp=True, ordered=False)
 
-    assert Pyxsim.run_on_simulator(
-        path, simthreads=[checker], tester=tester, capfd=capfd, build_options=build_ops)
+    Pyxsim.run_on_simulator_(
+        bin_path, do_xe_prebuild=False, simthreads=[checker], tester=None, capfd=capfd)
+
+    output = print_expected_vs_output(expected, capfd, verbosity)
+
+    assert tester.run(output), output
+

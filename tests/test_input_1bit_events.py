@@ -4,23 +4,29 @@
 import pytest
 import Pyxsim
 from Pyxsim import testers
+from pathlib import Path
 from gpio_events_checker import GPIOEventsChecker
 
 @pytest.mark.parametrize("events, timestamps", [(True, False)])
 def test_input_1bit_events(events, timestamps, capfd):
     events = int(events)
     timestamps = int(timestamps)
-    path = f"gpio_input_1bit_test/bin/{events}_{timestamps}/gpio_input_1bit_test_{events}_{timestamps}.xe"
-    build_ops = [f"EVENTS={events}", f"TIMESTAMPS={timestamps}"]
 
-    expected_result = "expected/input_1bit_events_test.expected"
+    test_name = Path(__file__).stem
+    file_path = Path(__file__).resolve().parent
+
+    bin_path = file_path/f"test_input_1bit/bin/{events}_{timestamps}/test_input_1bit_{events}_{timestamps}.xe"
+    assert bin_path.exists()
+
+    expected_file = file_path/f"expected/{test_name}.expected"
+    assert expected_file.exists()
 
     checker = GPIOEventsChecker(test_port="tile[0]:XS1_PORT_1A",
                                 expected_test_port_data=0b1,
                                 num_clients=1,
                                 trigger_port="tile[0]:XS1_PORT_4B")
 
-    tester = testers.ComparisonTester(open(expected_result), regexp=False)
+    tester = testers.ComparisonTester(open(expected_file), regexp=False)
 
-    assert Pyxsim.run_on_simulator(
-        path, simthreads=[checker], tester=tester, capfd=capfd, build_options=build_ops)
+    assert Pyxsim.run_on_simulator_(
+        bin_path, do_xe_prebuild=False, simthreads=[checker], tester=tester, capfd=capfd)

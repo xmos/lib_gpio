@@ -90,7 +90,7 @@ pipeline {
                                 createVenv(reqFile: "requirements.txt")
                                 withVenv {
                                     xcoreBuild(archiveBins: false)
-                                    runPytest("-v")
+                                    runPytest("-v -n auto")
                                 }
                             }
                         }
