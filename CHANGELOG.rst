@@ -1,11 +1,15 @@
 lib_gpio change log
 ===================
 
-UNRELEASED
-----------
+2.2.1
+-----
 
   * CHANGED:   Documentation updates
   * CHANGED:   Updated tests to build using xcommon-cmake
+
+  * Changes to dependencies:
+
+    - lib_xassert: 4.3.1 -> 4.3.2
 
 2.2.0
 -----
