@@ -33,4 +33,4 @@ pytest-xdist==3.6.1
 # If this repository uses the setup functionality (e.g., script entry points)
 # of its own setup.py file, then this list must include an entry for that
 # setup.py file, e.g., '-e .' or '-e ./python' (without the quotes).
--e git+https://git@github.com/xmos/test_support.git@e62b73a1260069c188a7d8fb0d91e1ef80a3c4e1#egg=test_support
+-e git+https://git@github.com/xmos/test_support.git@9a3c8b8c8fdfa82c90a24e7abf3b4430ac506238#egg=test_support
