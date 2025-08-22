@@ -8,7 +8,7 @@ Inroduction
 
 `lib_gpio` allows accessing `xcore` ports as low-speed GPIO.
 
-Although xcore ports can be directly accessed via the xC programming
+Although `xcore` ports can be directly accessed via the xC programming
 language this library allows more flexible usage. In particular, it
 allows splitting a multi-pin output/input port to be able to use
 the individual pins independently. It also allows accessing ports
@@ -62,17 +62,16 @@ This library allows independent access to the pins of mulit-bit ports
 by multiplexing the port output or input in software. This means that
 there are some performance implications, namely:
 
-* The internal buffering, serializing and de-serializing features of
-  the xCORE port are not available.
-* The software locking and multiplexing between individual bits of
-  the port limits performance. As such, toggling
-  pins at speed above 1Mhz, for example, is not achievable (on a
-  62.5Mhz logical core). The limit may be lower depending on the other
-  code is running on the core and how the other pins of the port are being
-  driven.
+* The internal buffering, serialising and de-serializing features of the `xcore` port are not
+  available.
+* The software locking and multiplexing between individual bits of the port limits performance. As
+  such, toggling pins at speed above 1 MHz, for example, is not achievable when running eight
+  threads on a tile on a device running at 500 MHz.
+  The limit may be lower depending on the other code is running on the task and how the other pins
+  of the port are being driven.
 
-As such, sharing multi-bit ports is most suitable for slow I/O such as
-LEDs, buttons and reset lines.
+As such, sharing multi-bit ports is most suitable for slow I/O such as LEDs, buttons and reset
+lines.
 
 |newpage|
 
@@ -100,7 +99,7 @@ Output GPIO usage
 
 Output GPIO components are instantiated as parallel tasks that run in a
 ``par`` statement. These components connect to the hardware ports of
-the xCORE device. The application
+the `xcore` device. The application
 can connect via an interface connection using an array of the ``output_gpio_if``
 interface type like in :ref:`output_gpio_task_diag`.
 
@@ -161,7 +160,7 @@ There are two types of input GPIO component: those that support events
 and those that do not support events. In both cases,
 input GPIO components are instantiated as parallel tasks that run in a
 ``par`` statement. These components connect to the hardware ports of
-the xCORE device. The application
+the `xcore` device. The application
 can connect via an interface connection using an array of the ``input_gpio_if``
 interface type like in :ref:`input_gpio_task_diag`.
 

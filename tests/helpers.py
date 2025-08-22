@@ -8,7 +8,7 @@ def print_expected_vs_output(expected, capfd, verbosity):
     output = out.split('\n')[:-1] # Need to trim last line
     with capfd.disabled():
         if verbosity > 0:
-            print(f"\n{'***EXPTECTED***':<40}***ACTUAL***")
+            print(f"\n{'***EXPECTED***':<40}***ACTUAL***")
         if err:
             print(f"Exceptions encountered: {err}") # Show any exceptions
         for e, o in zip_longest(expected, output, fillvalue = ''):
