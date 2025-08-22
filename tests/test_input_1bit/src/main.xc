@@ -54,7 +54,7 @@ void read_port_on_event(client input_gpio_if input_port) {
 void read_port(client input_gpio_if input_port) {
     unsigned int pin_data;
     unsigned int expected_value = 1;
-    
+
     if (TIMESTAMPS) {
         gpio_time_t ts1, ts2;
         pin_data = input_port.input_and_timestamp(ts1);
